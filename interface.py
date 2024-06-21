@@ -100,14 +100,7 @@ def predict_ticket_sales(new_data, kproto, best_models, features, categorical_in
     # Align the new show DataFrame with the training DataFrame
     new_data_df = new_data_df.reindex(columns=data_cluster.columns, fill_value=0)
 
-    # Debug prints to check data format
-    st.write("New data for prediction (before KPrototypes):")
-    st.write(new_data_df)
-
     cluster = kproto.predict(new_data_df.to_numpy(), categorical=categorical_indices)[0]
-
-    # Debug print for cluster prediction
-    st.write(f"Predicted cluster: {cluster}")
 
     model = best_models[cluster]
     new_data_df = pd.get_dummies(new_data_df, columns=categorical_features)
@@ -144,4 +137,3 @@ if submit_button:
 
     predicted_tickets, cluster = predict_ticket_sales(new_show, kproto, best_models, features, categorical_indices)
     st.write(f"Predicted tickets sold: {predicted_tickets}")
-    st.write(f"Predicted cluster: {cluster}")
